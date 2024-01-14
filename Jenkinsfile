@@ -18,7 +18,7 @@ pipeline {
             steps {
                 script {
                     sh "chmod +x -R ${env.WORKSPACE}"
-                    sh 'scripts/build.sh'
+                    sh './scripts/build.sh'
                 }
             }
         }
