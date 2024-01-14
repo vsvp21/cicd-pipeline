@@ -1,7 +1,5 @@
 def app
 pipeline {
-    agent any
-
     environment {
         registryCredential = 'docker.registry'
     }
