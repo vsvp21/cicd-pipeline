@@ -9,9 +9,10 @@ pipeline {
         stage('Image build and Push') {
             steps {
                 script {
-                    docker.withCredentials('https://hub.docker.com', registryCredential) {
-                      def appBuild = docker.build("app:${env.BUILD_ID}")
-                      appBuild.push()
+                    withCredentials([usernamePassword(credentialsId: registryCredential, passwordVariable: 'pass', usernameVariable: 'user')]) {
+                        sh "docker login -u ${user} -p ${pass}"
+                        sh "docker build -t release_${env.BUILD_ID} ."
+                        sh "docker push release_${env.BUILD_ID}"
                     }
                 }
             }
