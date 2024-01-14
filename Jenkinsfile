@@ -6,14 +6,33 @@ pipeline {
     }
 
     stages {
-        stage('build') {
+        stage('git checkout') {
+            steps {
+                checkout scm
+            }
+        }
+        stage('app build') {
+            steps {
+                script {
+                    sh 'scripts/build.sh'
+                }
+            }
+        }
+        stage('tests') {
+            steps {
+                script {
+                    sh '/scripts/tests.sh'
+                }
+            }
+        }
+        stage('docker image build') {
             steps {
                 script {
                     app = docker.build("release_${env.BUILD_NUMBER}", ".")
                 }
             }
         }
-        stage('Docker publish') {
+        stage('docker image push') {
             steps {
                 script {
                     docker.withRegistry('https://registry.hub.docker.com', registryCredential) {
