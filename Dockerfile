@@ -1,5 +1,5 @@
-FROM node:7.8.0
+FROM node:21-alpine3.18
 WORKDIR /opt
 COPY . /opt
-RUN npm install
+RUN npm i
 ENTRYPOINT npm run start
