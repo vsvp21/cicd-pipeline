@@ -17,6 +17,7 @@ pipeline {
         stage('app build') {
             steps {
                 script {
+                    sh "cd scripts"
                     sh "ls"
                     sh "chmod +x -R ${env.WORKSPACE}"
                     sh './scripts/build.sh'
