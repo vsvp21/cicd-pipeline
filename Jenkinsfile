@@ -18,37 +18,35 @@ pipeline {
             steps {
                 script {
                     sh "chmod +x -R ${env.WORKSPACE}"
-                    // sh 'scripts/build.sh'
                     sh 'npm i'
-                    sh "${env.WORKSPACE}/scripts/test.sh"
                 }
             }
         }
-        // stage('tests') {
-        //     steps {
-        //         script {
-        //             sh '/scripts/tests.sh'
-        //         }
-        //     }
-        // }
-        // stage('docker image build') {
-        //     steps {
-        //         script {
-        //             app = docker.build("release_${env.BUILD_NUMBER}", ".")
-        //         }
-        //     }
-        // }
-        // stage('docker image push') {
-        //     steps {
-        //         script {
-        //             docker.withRegistry('https://registry.hub.docker.com', registryCredential) {
-        //                 app.push("${env.BUILD_NUMBER}")
-        //                 app.push("latest")
-        //                 echo "Pushed!"
-        //             }
-        //         }
-        //     }
-        // }
+        stage('tests') {
+            steps {
+                script {
+                    sh 'npm test'
+                }
+            }
+        }
+        stage('docker image build') {
+            steps {
+                script {
+                    app = docker.build("release_${env.BUILD_NUMBER}", ".")
+                }
+            }
+        }
+        stage('docker image push') {
+            steps {
+                script {
+                    docker.withRegistry('https://registry.hub.docker.com', registryCredential) {
+                        app.push("${env.BUILD_NUMBER}")
+                        app.push("latest")
+                        echo "Pushed!"
+                    }
+                }
+            }
+        }
     }
 
     post {
