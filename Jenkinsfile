@@ -14,18 +14,13 @@ pipeline {
                 checkout scm
             }
         }
-        stage('Test') {
+        stage('app build') {
             steps {
-                sh 'node --version'
+                script {
+                    sh 'scripts/build.sh'
+                }
             }
         }
-        // stage('app build') {
-        //     steps {
-        //         script {
-        //             sh 'scripts/build.sh'
-        //         }
-        //     }
-        // }
         // stage('tests') {
         //     steps {
         //         script {
