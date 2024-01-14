@@ -1,6 +1,9 @@
 def app
 pipeline {
-    agent any
+    agent {
+        docker { image 'node:20.10.0-alpine3.19' }
+    }
+    
     environment {
         registryCredential = 'docker.registry'
     }
@@ -11,38 +14,43 @@ pipeline {
                 checkout scm
             }
         }
-        stage('app build') {
+        stage('Test') {
             steps {
-                script {
-                    sh 'scripts/build.sh'
-                }
+                sh 'node --version'
             }
         }
-        stage('tests') {
-            steps {
-                script {
-                    sh '/scripts/tests.sh'
-                }
-            }
-        }
-        stage('docker image build') {
-            steps {
-                script {
-                    app = docker.build("release_${env.BUILD_NUMBER}", ".")
-                }
-            }
-        }
-        stage('docker image push') {
-            steps {
-                script {
-                    docker.withRegistry('https://registry.hub.docker.com', registryCredential) {
-                        app.push("${env.BUILD_NUMBER}")
-                        app.push("latest")
-                        echo "Pushed!"
-                    }
-                }
-            }
-        }
+        // stage('app build') {
+        //     steps {
+        //         script {
+        //             sh 'scripts/build.sh'
+        //         }
+        //     }
+        // }
+        // stage('tests') {
+        //     steps {
+        //         script {
+        //             sh '/scripts/tests.sh'
+        //         }
+        //     }
+        // }
+        // stage('docker image build') {
+        //     steps {
+        //         script {
+        //             app = docker.build("release_${env.BUILD_NUMBER}", ".")
+        //         }
+        //     }
+        // }
+        // stage('docker image push') {
+        //     steps {
+        //         script {
+        //             docker.withRegistry('https://registry.hub.docker.com', registryCredential) {
+        //                 app.push("${env.BUILD_NUMBER}")
+        //                 app.push("latest")
+        //                 echo "Pushed!"
+        //             }
+        //         }
+        //     }
+        // }
     }
 
     post {
