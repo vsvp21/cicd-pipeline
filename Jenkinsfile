@@ -5,15 +5,19 @@ pipeline {
         registryCredential = 'docker.registry'
     }
 
+    def app
     stages {
-        stage('Image build and Push') {
-            steps {
-                script {
-                    withCredentials([usernamePassword(credentialsId: registryCredential, passwordVariable: 'pass', usernameVariable: 'user')]) {
-                        sh "docker login -u ${user} -p ${pass}"
-                        sh "docker build -t release_${env.BUILD_ID} ."
-                        sh "docker push release_${env.BUILD_ID}"
-                    }
+        stage('build') {
+            container('docker') {
+                app = docker.build("release_${env.BUILD_NUMBER}", ".")
+            }
+        }
+        stage('Docker publish') {
+            container('docker') {
+                docker.withRegistry('https://registry.hub.docker.com', registryCredential) {
+                    app.push("${env.BUILD_NUMBER}")
+                    app.push("latest")
+                    echo "Pushed!"
                 }
             }
         }
