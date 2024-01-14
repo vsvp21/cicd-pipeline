@@ -8,12 +8,12 @@ pipeline {
     def app
     stages {
         stage('build') {
-            container('docker') {
+            steps {
                 app = docker.build("release_${env.BUILD_NUMBER}", ".")
             }
         }
         stage('Docker publish') {
-            container('docker') {
+            steps {
                 docker.withRegistry('https://registry.hub.docker.com', registryCredential) {
                     app.push("${env.BUILD_NUMBER}")
                     app.push("latest")
