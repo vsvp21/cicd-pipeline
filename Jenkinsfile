@@ -20,7 +20,7 @@ pipeline {
                     sh "chmod +x -R ${env.WORKSPACE}"
                     // sh 'scripts/build.sh'
                     sh 'npm i'
-                    sh '${env.WORKSPACE}/scripts/tests.sh'
+                    sh '${env.WORKSPACE}/scripts/test.sh'
                 }
             }
         }
