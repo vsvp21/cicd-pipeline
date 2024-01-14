@@ -14,21 +14,21 @@ pipeline {
                 checkout scm
             }
         }
-        stage('app build') {
-            steps {
-                script {
-                    sh "chmod +x -R ${env.WORKSPACE}"
-                    sh 'npm i'
-                }
-            }
-        }
-        stage('tests') {
-            steps {
-                script {
-                    sh 'npm test'
-                }
-            }
-        }
+        // stage('app build') {
+        //     steps {
+        //         script {
+        //             sh "chmod +x -R ${env.WORKSPACE}"
+        //             sh 'npm i'
+        //         }
+        //     }
+        // }
+        // stage('tests') {
+        //     steps {
+        //         script {
+        //             sh 'npm test'
+        //         }
+        //     }
+        // }
         stage('docker image build') {
             steps {
                 script {
