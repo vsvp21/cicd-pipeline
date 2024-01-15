@@ -1,10 +1,6 @@
 pipeline {  
   agent any
 
-  environment {
-    registryCredential = 'docker.registry'
-  }
-  
   stages {
     stage('Git checkout') {
       steps {
@@ -54,7 +50,7 @@ scripts/test.sh'''
 
           // Create a tag that going to push into DockerHub
           sh "docker tag ${localImage} ${repositoryName} "
-          docker.withRegistry('https://registry.hub.docker.com', registryCredential) {
+          docker.withRegistry('https://registry.hub.docker.com') {
             def image = docker.image("${repositoryName}");
             image.push()
           }
