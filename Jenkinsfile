@@ -21,8 +21,8 @@ pipeline {
             }
             steps {
                 script {
-                    sh "chmod +x -R ${env.WORKSPACE}"
-                    sh "${env.WORKSPACE}/scripts/build.sh"
+                    sh 'chmod +x scripts/build.sh'
+                    sh 'scripts/build.sh'
                 }
             }
         }
@@ -32,8 +32,8 @@ pipeline {
             }
             steps {
                 script {
-                    sh "chmod +x -R ${env.WORKSPACE}"
-                    sh "${env.WORKSPACE}/scripts/test.sh"
+                    sh 'chmod +x scripts/test.sh'
+                    sh 'scripts/test.sh'
                 }
             }
         }
