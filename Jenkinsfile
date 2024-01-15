@@ -1,16 +1,15 @@
 pipeline {
-    // agent {
-    //     docker { image 'node:20.10.0-alpine3.19' }
-    // }
     agent any
-    
+
+    agent {
+        docker { image 'node:20.10.0-alpine3.19' }
+    }
+
     environment {
         registryCredential = 'docker.registry'
     }
 
     stages {
-        def app
-
         stage('git checkout') {
             steps {
                 checkout scm
@@ -34,17 +33,22 @@ pipeline {
         stage('docker image build') {
             steps {
                 script {
-                    app = docker.build("release_${env.BUILD_NUMBER}", ".")
+                    docker.build("release:${env.BUILD_NUMBER}", ".")
                 }
             }
         }
         stage('docker image push') {
             steps {
                 script {
+                    echo "Pushing the image to docker hub"
+                    def localImage = "release:${env.BUILD_NUMBER}"
+                    def repositoryName = "kimyuri/${localImage}"
+                  
+                    // Create a tag that going to push into DockerHub
+                    sh "docker tag ${localImage} ${repositoryName} "
                     docker.withRegistry('https://registry.hub.docker.com', registryCredential) {
-                        app.push("${env.BUILD_NUMBER}")
-                        app.push("latest")
-                        echo "Pushed!"
+                      def image = docker.image("${repositoryName}");
+                      image.push()
                     }
                 }
             }
