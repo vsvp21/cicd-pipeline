@@ -1,10 +1,5 @@
 pipeline {
     agent any
-
-    // agent {
-    //     docker { image 'node:20.10.0-alpine3.19' }
-    // }
-
     environment {
         registryCredential = 'docker.registry'
     }
@@ -15,21 +10,27 @@ pipeline {
                 checkout scm
             }
         }
-        // stage('app build') {
-        //     steps {
-        //         script {
-        //             sh "chmod +x -R ${env.WORKSPACE}"
-        //             sh 'npm i'
-        //         }
-        //     }
-        // }
-        // stage('tests') {
-        //     steps {
-        //         script {
-        //             sh 'npm test'
-        //         }
-        //     }
-        // }
+        stage('app build') {
+            agent {
+                docker { image 'node:20.10.0-alpine3.19' }
+            }
+            steps {
+                script {
+                    sh "chmod +x -R ${env.WORKSPACE}"
+                    sh 'npm i'
+                }
+            }
+        }
+        stage('tests') {
+            agent {
+                docker { image 'node:20.10.0-alpine3.19' }
+            }
+            steps {
+                script {
+                    sh 'npm test'
+                }
+            }
+        }
         stage('docker image build') {
             steps {
                 script {
