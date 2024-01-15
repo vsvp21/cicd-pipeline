@@ -1,6 +1,10 @@
 pipeline {  
   agent any
 
+  environment {
+    registryCredential = 'docker.registry'
+  }
+  
   stages {
     stage('Git checkout') {
       steps {
