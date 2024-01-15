@@ -15,9 +15,6 @@ pipeline {
             }
         }
         stage('app build') {
-            agent {
-                docker { image 'node:20.10.0-alpine3.19' }
-            }
             steps {
                 script {
                     sh 'chmod +x scripts/build.sh'
@@ -27,9 +24,6 @@ pipeline {
             }
         }
         stage('tests') {
-            agent {
-                docker { image 'node:20.10.0-alpine3.19' }
-            }
             steps {
                 script {
                     sh 'chmod +x scripts/test.sh'
