@@ -1,4 +1,3 @@
-def app
 pipeline {
     // agent {
     //     docker { image 'node:20.10.0-alpine3.19' }
@@ -10,6 +9,8 @@ pipeline {
     }
 
     stages {
+        def app
+
         stage('git checkout') {
             steps {
                 checkout scm
