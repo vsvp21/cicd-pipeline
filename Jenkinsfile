@@ -1,9 +1,9 @@
 pipeline {
     agent any
 
-    agent {
-        docker { image 'node:20.10.0-alpine3.19' }
-    }
+    // agent {
+    //     docker { image 'node:20.10.0-alpine3.19' }
+    // }
 
     environment {
         registryCredential = 'docker.registry'
