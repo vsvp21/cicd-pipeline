@@ -1,10 +1,6 @@
-pipeline {
-  agent {
-    docker {
-      image 'node:lts-alpine'
-    }
-  }
-  
+pipeline {  
+  agent any
+
   stages {
     stage('Git checkout') {
       steps {
@@ -12,14 +8,24 @@ pipeline {
       }
     }
 
-    stage('Build') {
+    stage('app build') {
+      agent {
+        docker {
+          image 'node:lts-alpine'
+        }
+      }
       steps {
         sh '''chmod +x scripts/build.sh
 sh scripts/build.sh'''
       }
     }
 
-    stage('Test') {
+    stage('app tests') {
+      agent {
+        docker {
+          image 'node:lts-alpine'
+        }
+      }
       steps {
         sh '''chmod +x scripts/test.sh
 scripts/test.sh'''
