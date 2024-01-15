@@ -22,7 +22,7 @@ pipeline {
             steps {
                 script {
                     sh "chmod +x -R ${env.WORKSPACE}"
-                    sh 'npm i'
+                    sh "${env.WORKSPACE}/scripts/build.sh"
                 }
             }
         }
@@ -32,7 +32,8 @@ pipeline {
             }
             steps {
                 script {
-                    sh 'npm test'
+                    sh "chmod +x -R ${env.WORKSPACE}"
+                    sh "${env.WORKSPACE}/scripts/test.sh"
                 }
             }
         }
