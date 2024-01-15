@@ -1,15 +1,20 @@
 pipeline {
     agent any
+
+    options {
+        skipDefaultCheckout true
+    }
+    
     environment {
         registryCredential = 'docker.registry'
     }
 
     stages {
-        // stage('git checkout') {
-        //     steps {
-        //         checkout scm
-        //     }
-        // }
+        stage('git checkout') {
+            steps {
+                checkout scm
+            }
+        }
         stage('app build') {
             agent {
                 docker { image 'node:20.10.0-alpine3.19' }
