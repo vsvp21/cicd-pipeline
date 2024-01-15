@@ -22,7 +22,7 @@ pipeline {
             steps {
                 script {
                     sh 'chmod +x scripts/build.sh'
-                    sh "${pwd}/scripts/build.sh"
+                    sh "${env.WORKSPACE}/scripts/build.sh"
                 }
             }
         }
