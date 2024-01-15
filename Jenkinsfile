@@ -22,7 +22,11 @@ pipeline {
             steps {
                 script {
                     sh 'chmod +x scripts/build.sh'
-                    sh 'scripts/build.sh'
+                    sh 'ls -l'
+                    sh 'ls -l .'
+                    sh 'ls -l scripts'
+                    sh 'ls -l ./scripts'
+                    sh './scripts/build.sh'
                 }
             }
         }
@@ -32,8 +36,8 @@ pipeline {
             }
             steps {
                 script {
-                    sh 'chmod +x scripts/test.sh'
-                    sh 'scripts/test.sh'
+                    sh 'chmod +x scripts/test.sh'        
+                    sh './scripts/test.sh'
                 }
             }
         }
