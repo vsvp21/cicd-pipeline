@@ -23,10 +23,8 @@ pipeline {
                 script {
                     sh 'chmod +x scripts/build.sh'
                     sh 'ls -l'
-                    sh 'ls -l .'
-                    sh 'ls -l scripts'
-                    sh 'ls -l ./scripts'
-                    sh './scripts/build.sh'
+                    sh 'pwd'
+                    sh "./scripts/build.sh"
                 }
             }
         }
