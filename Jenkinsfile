@@ -3,44 +3,26 @@ pipeline {
     docker {
       image 'node:lts-alpine'
     }
-
   }
+  
   stages {
-    stage('git checkout') {
+    stage('Git checkout') {
       steps {
-        checkout scm
+        sh '${scm}'
       }
     }
 
-    stage('app build') {
-      agent {
-        docker {
-          image 'node:20.10.0-alpine3.19'
-        }
-
-      }
+    stage('Build') {
       steps {
-        script {
-          sh 'chmod +x scripts/build.sh'
-          sh "${env.WORKSPACE}/scripts/build.sh"
-        }
-
+        sh '''chmod +x scripts/build.sh
+sh scripts/build.sh'''
       }
     }
 
-    stage('tests') {
-      agent {
-        docker {
-          image 'node:20.10.0-alpine3.19'
-        }
-
-      }
+    stage('Test') {
       steps {
-        script {
-          sh 'chmod +x scripts/test.sh'
-          sh './scripts/test.sh'
-        }
-
+        sh '''chmod +x scripts/test.sh
+scripts/test.sh'''
       }
     }
 
